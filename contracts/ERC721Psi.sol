@@ -294,7 +294,7 @@ contract ERC721Psi is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerab
      * Tokens start existing when they are minted (`_mint`).
      */
     function _exists(uint256 tokenId) internal view virtual returns (bool) {
-        return tokenId < _minted - _startTokenId();
+        return _startTokenId() <= tokenId && tokenId < _minted;
     }
 
     /**
