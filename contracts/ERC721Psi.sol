@@ -47,6 +47,14 @@ contract ERC721Psi is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerab
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
+        _minted = _startTokenId();
+    }
+
+    /**
+     * @dev To change the starting tokenId, please override this function.
+     */
+    function _startTokenId() internal view virtual returns (uint256) {
+        return 0;
     }
 
     /**
@@ -286,7 +294,7 @@ contract ERC721Psi is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerab
      * Tokens start existing when they are minted (`_mint`).
      */
     function _exists(uint256 tokenId) internal view virtual returns (bool) {
-        return tokenId < _minted;
+        return tokenId < _minted - _startTokenId();
     }
 
     /**
@@ -468,7 +476,7 @@ contract ERC721Psi is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerab
      * @dev See {IERC721Enumerable-totalSupply}.
      */
     function totalSupply() public view virtual override returns (uint256) {
-        return _minted;
+        return _minted - _startTokenId();
     }
 
     /**
